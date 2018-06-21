@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background-image: url("images/sven-scheuermeier-108248-unsplash.jpg");
+	background-size: cover;
+
+}
+iframe {
+    width: 400px;
+    height: 300px;
+    margin:  auto;
+	display: block;
+}
+
+</style>
+</head>
+<body>
+
+<h1 style="text-align:center;"><font color="White"> Today portfolio value is: {{.Value}}&euro;</h1>
+<iframe src="https://coin360.io/widget/map.html" title="Coin360.io: Cryptocurrency Market State" width="400" height="300" ></iframe>
+<script>setTimeout(function() {window.location.reload();}, 60000)</script>
+</body>
+</html>
