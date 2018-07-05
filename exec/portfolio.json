@@ -1,0 +1,22 @@
+[
+  {
+    "name" : "ethereum",
+	   "amount": 1.1
+   },
+   {
+     "name" : "bitcoin",
+ 	   "amount": 2.2
+    },
+    {
+      "name" : "monero",
+  	   "amount": 3.3
+     },
+     {
+       "name" : "steem",
+   	   "amount": 4.4
+      },
+      {
+        "name" : "dogecoin",
+    	   "amount": 1234567
+       }
+]

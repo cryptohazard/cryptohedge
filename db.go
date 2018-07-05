@@ -11,14 +11,14 @@ type Cryptofolio struct {
 }
 
 type Coin struct {
-	name   string
-	amount float64
-	rate   float64
+	Name   string  `json:"name"`
+	Amount float64 `json:"amount"`
+	Rate   float64
 }
 
 func (c *Coin) Value() (value float64) {
-	value = c.amount * c.rate
-	fmt.Println(c.name, " ", value)
+	value = c.Amount * c.Rate
+	fmt.Println(c.Name, " ", value)
 	return
 }
 
@@ -29,4 +29,10 @@ func (crypto *Cryptofolio) Value() (value float64) {
 	}
 
 	return
+}
+
+func (crypto *Cryptofolio) Print() {
+	for _, c := range crypto.cryptoArray {
+		fmt.Println(c.Name, " ", c.Amount)
+	}
 }

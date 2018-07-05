@@ -1,13 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"cryptohedge"
+	//"github.com/cryptohazard/hackico"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
-	"os"
 )
 
 // GOOS=windows GOARCH=amd64 go build -o cryptohedge.exe main.go
@@ -21,7 +20,7 @@ func main() {
 	http.HandleFunc("/", helloWorld)
 	fs := http.FileServer(http.Dir("../images/"))
 	http.Handle("/images/", http.StripPrefix("/images/", fs))
-	if err := http.ListenAndServe(":80", nil); err != nil {
+	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
@@ -31,14 +30,9 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 }
 
 func process(w http.ResponseWriter) float64 {
-	portfolio, _ := os.Open("portfolio")
-	scanner := bufio.NewScanner(portfolio)
-	var funds = new(cryptohedge.Cryptofolio)
 	fmt.Println("\n ***Reading the portfolio!***\n")
-	for scanner.Scan() {
-		cryptohedge.Parse(funds, scanner.Text())
-	}
-
+	funds := cryptohedge.ParseJSON("portfolio.json")
+	funds.Print()
 	err := cryptohedge.GetRate(funds)
 	if err != nil {
 		fmt.Fprintf(w, "Something went wrong getting the cryptocurrencies price\n")

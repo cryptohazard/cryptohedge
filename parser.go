@@ -1,35 +1,41 @@
 package cryptohedge
 
 import (
+	"encoding/json"
 	"fmt"
-	"strconv"
-	"strings"
+	"io/ioutil"
+	"log"
 
 	"github.com/cryptohazard/coinmarketcap"
 )
 
-func Parse(crypto *Cryptofolio, line string) {
-	lineElements := strings.Split(line, " ")
-	fmt.Println(lineElements[1], " \t\t\t", lineElements[0])
-	var coin = new(Coin)
-	coin.name = lineElements[1]
-	coin.amount, _ = strconv.ParseFloat(lineElements[0], 64)
-	crypto.cryptoArray = append(crypto.cryptoArray, coin)
+func ParseJSON(portfolioFile string) *Cryptofolio {
+	var crypto = new(Cryptofolio)
+	rawJSON, err := ioutil.ReadFile(portfolioFile)
+	if err != nil {
+		log.Fatal("Error in portfolio File ", portfolioFile, ": ", err)
+	}
+	json.Unmarshal(rawJSON, &crypto.cryptoArray)
+
+	return crypto
+
 }
 
 func GetRate(crypto *Cryptofolio) error {
+
 	s := make([]string, len(crypto.cryptoArray))
 	for _, c := range crypto.cryptoArray {
-		s = append(s, c.name)
+		s = append(s, c.Name)
 	}
 
 	ticker, err := coinmarketcap.GetData(s)
+	fmt.Println(ticker)
 	if err != nil {
 		fmt.Println("error ticker")
 		return err
 	}
 	for _, c := range crypto.cryptoArray {
-		c.rate = ticker.Coins[c.name].PriceEUR
+		c.Rate = ticker.Coins[c.Name].PriceEUR
 	}
 
 	return nil
