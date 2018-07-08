@@ -35,8 +35,9 @@ func process(w http.ResponseWriter) float64 {
 	funds.Print()
 	err := cryptohedge.GetRate(funds)
 	if err != nil {
-		fmt.Fprintf(w, "Something went wrong getting the cryptocurrencies price\n")
-		fmt.Fprint(w, err)
+		message := "Something went wrong getting the cryptocurrencies price\n"
+		pageNotFound(w, message)
+		fmt.Println(err)
 		return 0.0
 	}
 	value := funds.Value()
@@ -54,4 +55,10 @@ func process(w http.ResponseWriter) float64 {
 
 func roundup(f float64) float64 {
 	return float64(int(f*100)) / 100
+}
+
+func pageNotFound(w http.ResponseWriter, message string) {
+	tmpl := template.Must(template.ParseFiles("../404.html"))
+	data := struct{ Message string }{Message: message}
+	tmpl.Execute(w, data)
 }
