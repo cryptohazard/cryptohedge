@@ -15,7 +15,7 @@ func ParseJSON(portfolioFile string) *Cryptofolio {
 	if err != nil {
 		log.Fatal("Error in portfolio File ", portfolioFile, ": ", err)
 	}
-	json.Unmarshal(rawJSON, &crypto.cryptoArray)
+	json.Unmarshal(rawJSON, &crypto.CryptoArray)
 
 	return crypto
 
@@ -23,8 +23,8 @@ func ParseJSON(portfolioFile string) *Cryptofolio {
 
 func GetRate(crypto *Cryptofolio) error {
 
-	s := make([]string, len(crypto.cryptoArray))
-	for _, c := range crypto.cryptoArray {
+	s := make([]string, len(crypto.CryptoArray))
+	for _, c := range crypto.CryptoArray {
 		s = append(s, c.Name)
 	}
 
@@ -34,7 +34,7 @@ func GetRate(crypto *Cryptofolio) error {
 		fmt.Println("error ticker")
 		return err
 	}
-	for _, c := range crypto.cryptoArray {
+	for _, c := range crypto.CryptoArray {
 		c.Rate = ticker.Coins[c.Name].PriceEUR
 	}
 

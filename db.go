@@ -6,8 +6,8 @@ import (
 )
 
 type Cryptofolio struct {
-	fiatArray   []*Coin
-	cryptoArray []*Coin
+	FiatArray   []*Coin
+	CryptoArray []*Coin
 }
 
 type Coin struct {
@@ -24,7 +24,7 @@ func (c *Coin) Value() (value float64) {
 
 func (crypto *Cryptofolio) Value() (value float64) {
 	fmt.Println("\n***Coins value***\n")
-	for _, c := range crypto.cryptoArray {
+	for _, c := range crypto.CryptoArray {
 		value += c.Value()
 	}
 
@@ -32,7 +32,7 @@ func (crypto *Cryptofolio) Value() (value float64) {
 }
 
 func (crypto *Cryptofolio) Print() {
-	for _, c := range crypto.cryptoArray {
+	for _, c := range crypto.CryptoArray {
 		fmt.Println(c.Name, " ", c.Amount)
 	}
 }

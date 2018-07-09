@@ -18,18 +18,46 @@ type Data struct {
 
 func main() {
 	http.HandleFunc("/", helloWorld)
+	http.HandleFunc("/cryptofolio", cryptofolio)
 	fs := http.FileServer(http.Dir("../images/"))
 	http.Handle("/images/", http.StripPrefix("/images/", fs))
+	fs = http.FileServer(http.Dir("../css/"))
+	http.Handle("/css/", http.StripPrefix("/css/", fs))
+	fs = http.FileServer(http.Dir("../js/"))
+	http.Handle("/js/", http.StripPrefix("/js/", fs))
+	fs = http.FileServer(http.Dir("../vendor/"))
+	http.Handle("/vendor/", http.StripPrefix("/vendor/", fs))
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
-	process(w)
+	funds, err := process(w)
+	if err != nil {
+		return
+	}
+
+	value := funds.Value()
+
+	tmpl := template.Must(template.ParseFiles("../index.html"))
+	data := Data{
+		Value: roundup(value),
+	}
+	tmpl.Execute(w, data)
 }
 
-func process(w http.ResponseWriter) float64 {
+func cryptofolio(w http.ResponseWriter, r *http.Request) {
+	funds, err := process(w)
+	if err != nil {
+		return
+	}
+
+	tmpl := template.Must(template.ParseFiles("../cryptofolio.html"))
+
+	tmpl.Execute(w, funds)
+}
+func process(w http.ResponseWriter) (*cryptohedge.Cryptofolio, error) {
 	fmt.Println("\n ***Reading the portfolio!***\n")
 	funds := cryptohedge.ParseJSON("portfolio.json")
 	funds.Print()
@@ -38,19 +66,9 @@ func process(w http.ResponseWriter) float64 {
 		message := "Something went wrong getting the cryptocurrencies price\n"
 		pageNotFound(w, message)
 		fmt.Println(err)
-		return 0.0
+		return new(cryptohedge.Cryptofolio), err
 	}
-	value := funds.Value()
-
-	tmpl := template.Must(template.ParseFiles("../index.html"))
-	data := Data{
-		Value: roundup(value),
-	}
-
-	tmpl.Execute(w, data)
-
-	return value
-
+	return funds, err
 }
 
 func roundup(f float64) float64 {
