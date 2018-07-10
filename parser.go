@@ -29,7 +29,7 @@ func GetRate(crypto *Cryptofolio) error {
 	}
 
 	ticker, err := coinmarketcap.GetData(s)
-	fmt.Println(ticker)
+	//fmt.Println(ticker)
 	if err != nil {
 		fmt.Println("error ticker")
 		return err

@@ -19,6 +19,7 @@ type Data struct {
 func main() {
 	http.HandleFunc("/", helloWorld)
 	http.HandleFunc("/cryptofolio", cryptofolio)
+
 	fs := http.FileServer(http.Dir("../images/"))
 	http.Handle("/images/", http.StripPrefix("/images/", fs))
 	fs = http.FileServer(http.Dir("../css/"))
@@ -27,6 +28,7 @@ func main() {
 	http.Handle("/js/", http.StripPrefix("/js/", fs))
 	fs = http.FileServer(http.Dir("../vendor/"))
 	http.Handle("/vendor/", http.StripPrefix("/vendor/", fs))
+
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
@@ -39,6 +41,7 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 	}
 
 	value := funds.Value()
+	funds.Print()
 
 	tmpl := template.Must(template.ParseFiles("../index.html"))
 	data := Data{
@@ -48,10 +51,13 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 }
 
 func cryptofolio(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Cryptofolio\n")
 	funds, err := process(w)
 	if err != nil {
 		return
 	}
+	funds.Percentage()
+	funds.Print()
 
 	tmpl := template.Must(template.ParseFiles("../cryptofolio.html"))
 
@@ -60,7 +66,6 @@ func cryptofolio(w http.ResponseWriter, r *http.Request) {
 func process(w http.ResponseWriter) (*cryptohedge.Cryptofolio, error) {
 	fmt.Println("\n ***Reading the portfolio!***\n")
 	funds := cryptohedge.ParseJSON("portfolio.json")
-	funds.Print()
 	err := cryptohedge.GetRate(funds)
 	if err != nil {
 		message := "Something went wrong getting the cryptocurrencies price\n"

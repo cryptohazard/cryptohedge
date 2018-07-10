@@ -11,28 +11,50 @@ type Cryptofolio struct {
 }
 
 type Coin struct {
-	Name   string  `json:"name"`
-	Amount float64 `json:"amount"`
-	Rate   float64
+	Name       string  `json:"name"`
+	Amount     float64 `json:"amount"`
+	Rate       float64
+	Percentage float64
+	Value      float64
 }
 
-func (c *Coin) Value() (value float64) {
+func (c *Coin) computeValue() (value float64) {
 	value = c.Amount * c.Rate
-	fmt.Println(c.Name, " ", value)
+	c.Value = value
+	//fmt.Println(c.Name, " ", value)
+	return
+}
+
+func (c *Coin) computePercentage(value float64) (p float64) {
+	p = percentage(c.Value, value)
+	c.Percentage = p
 	return
 }
 
 func (crypto *Cryptofolio) Value() (value float64) {
-	fmt.Println("\n***Coins value***\n")
+	//fmt.Println("\n***Coins value***\n")
 	for _, c := range crypto.CryptoArray {
-		value += c.Value()
+		value += c.computeValue()
+	}
+	return
+}
+
+func (crypto *Cryptofolio) Percentage() {
+	value := crypto.Value()
+	for _, c := range crypto.CryptoArray {
+		c.computePercentage(value)
 	}
 
-	return
 }
 
 func (crypto *Cryptofolio) Print() {
 	for _, c := range crypto.CryptoArray {
-		fmt.Println(c.Name, " ", c.Amount)
+		fmt.Println(c.Name, " ", c.Amount, " ", c.Value, " ", c.Percentage, "%")
 	}
+}
+
+// compute percentage
+func percentage(part float64, total float64) (p float64) {
+	p = 100 * part / total
+	return
 }

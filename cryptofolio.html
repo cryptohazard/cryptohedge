@@ -44,9 +44,10 @@ Cryptofolio
 								<tr class="row100 head">
 									<th class="cell100 column1">Coin</th>
 									<th class="cell100 column2">Amount</th>
-									<th class="cell100 column3">Value</th>
-									<th class="cell100 column4">Percentage</th>
-									<th class="cell100 column5">Deviation</th>
+									<th class="cell100 column3">Price(&euro;)</th>
+									<th class="cell100 column4">Value(&euro;)</th>
+									<th class="cell100 column5">Percentage</th>
+									<!--<th class="cell100 column6">Deviation</th>-->
 								</tr>
 							</thead>
 						</table>
@@ -60,8 +61,8 @@ Cryptofolio
 									<td class="cell100 column1">{{.Name}}</td>
 									<td class="cell100 column2"> {{.Amount}}</td>
 									<td class="cell100 column3">{{.Rate}}</td>
-									<td class="cell100 column4"></td>
-									<td class="cell100 column5"></td>
+									<td class="cell100 column4"> {{.Value}}</td>
+									<td class="cell100 column5"> {{.Percentage}}</td>
 								</tr>
 								 {{end}}
 

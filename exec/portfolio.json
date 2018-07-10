@@ -18,5 +18,9 @@
       {
         "name" : "dogecoin",
     	   "amount": 123456
+       },
+       {
+         "name" : "tether",
+         "amount": 0
        }
 ]
