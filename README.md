@@ -59,13 +59,21 @@ Example files, with obviously fake data, are provided.
 
 ## Features
 ### "/"
-This shows the value(in €) of the cryptofolio. It also shows the current state of the market, courtesy of [coin360](https://coin360.io/).
+This shows the value(in €) of the cryptofolio. 
+It also shows the current state of the market, courtesy of [coin360](https://coin360.io/).
 
+![index.png](https://ipfs.busy.org/ipfs/QmZZc76XwyH7RCum2AkCGS3YUfXJmWsSghudchygGT7UpZ)
 ### "/cryptofolio"
-This shows the content of the portfolio. The coin name and amount are retrieved from the ```portfolio.json```. The value is computed from the price available through [coinmarketcap API](https://coinmarketcap.com/api/). We also compute the percentage of each coin in the portfolio. This is interesting to see how dependent you are of a particular currency. Next versions will allow you to set your *dream portfolio* so that you can compare it to the current one.
+This shows the content of the portfolio. The coin name and amount are retrieved from the ```portfolio.json```. The value is computed from the price available through [coinmarketcap API](https://coinmarketcap.com/api/). We also compute the percentage of each coin in the portfolio. This is interesting to see how dependent you are of a particular currency. 
+Next versions will allow you to set your *dream portfolio* so that you can compare it to the current one.
+
+![cryptofolio.png](https://ipfs.busy.org/ipfs/QmcK97yuTyz1Mxq5QtiDM5koTkXVQ6ktR6LfH1tKbEqd5Z)
 
 ### "/cryptohedge"
-Here it is mainly about users. How many shares do they *HODL*? What the value in €? It also shows the *Index*, the price of share in the hedge fun. This page should be locked to *administrators* in the future and users will only see their own info.
+Here it is mainly about users. How many shares do they *HODL*? What the value in €? It also shows the *Index*, the price of share in the hedge fun. 
+This page should be locked to *administrators* in the future and users will only see their own info.
+
+![cryptohedge.png](https://ipfs.busy.org/ipfs/QmTGiC4i9h6UDnMYsVtMUmLY46A9SnZtWDVTyRJrnzi94M)
 
 ## Frontend development
 The Frontend part is clearly not *my forte*. As such, I am just doing quick-and-dirty pages that shows what can be done with value retrieved from a Golang Backend. I invite you to check [Golang html templates package](https://golang.org/pkg/html/template/) to understand the relation between the frontend and the backend but they can be developped separately.
