@@ -1,0 +1,26 @@
+[
+  {
+    "name" : "aba",
+	   "shares": 18
+   },
+   {
+     "name" : "aora",
+ 	   "shares": 26
+    },
+    {
+      "name" : "brettia",
+  	   "shares": 7
+     },
+     {
+       "name" : "pareia",
+   	   "shares": 47
+      },
+      {
+        "name" : "semestra",
+    	   "shares": 25
+       },
+       {
+         "name" : "sabrina",
+         "shares": 78
+       }
+]

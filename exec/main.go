@@ -17,8 +17,9 @@ type Data struct {
 }
 
 func main() {
-	http.HandleFunc("/", helloWorld)
 	http.HandleFunc("/cryptofolio", cryptofolio)
+	http.HandleFunc("/cryptohedge", hedgefund)
+	http.HandleFunc("/", helloWorld)
 
 	fs := http.FileServer(http.Dir("../images/"))
 	http.Handle("/images/", http.StripPrefix("/images/", fs))
@@ -34,15 +35,27 @@ func main() {
 	}
 }
 
+func process(w http.ResponseWriter) (*cryptohedge.Cryptofolio, *cryptohedge.Cryptohedge, error) {
+	fmt.Println("\n ***Reading the portfolio!***\n")
+	crypto, hedge := cryptohedge.ParseJSON("portfolio.json", "shares.json")
+	err := cryptohedge.GetRate(crypto)
+	if err != nil {
+		message := "Something went wrong getting the cryptocurrencies price\n"
+		pageNotFound(w, message)
+		fmt.Println(err)
+		return new(cryptohedge.Cryptofolio), new(cryptohedge.Cryptohedge), err
+	}
+	return crypto, hedge, err
+}
+
 func helloWorld(w http.ResponseWriter, r *http.Request) {
-	funds, err := process(w)
+	crypto, _, err := process(w)
 	if err != nil {
 		return
 	}
 
-	value := funds.Value()
-	funds.Print()
-
+	value := crypto.Value()
+	crypto.Print()
 	tmpl := template.Must(template.ParseFiles("../index.html"))
 	data := Data{
 		Value: roundup(value),
@@ -51,29 +64,30 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 }
 
 func cryptofolio(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Cryptofolio\n")
-	funds, err := process(w)
+	crypto, _, err := process(w)
 	if err != nil {
 		return
 	}
-	funds.Percentage()
-	funds.Print()
+	crypto.Percentage()
+	crypto.Print()
 
 	tmpl := template.Must(template.ParseFiles("../cryptofolio.html"))
 
-	tmpl.Execute(w, funds)
+	tmpl.Execute(w, crypto)
 }
-func process(w http.ResponseWriter) (*cryptohedge.Cryptofolio, error) {
-	fmt.Println("\n ***Reading the portfolio!***\n")
-	funds := cryptohedge.ParseJSON("portfolio.json")
-	err := cryptohedge.GetRate(funds)
+
+func hedgefund(w http.ResponseWriter, r *http.Request) {
+	crypto, hedge, err := process(w)
 	if err != nil {
-		message := "Something went wrong getting the cryptocurrencies price\n"
-		pageNotFound(w, message)
-		fmt.Println(err)
-		return new(cryptohedge.Cryptofolio), err
+		return
 	}
-	return funds, err
+	hedge.ComputeValues(crypto.Value())
+	hedge.Print()
+
+	tmpl := template.Must(template.ParseFiles("../cryptohedge.html"))
+
+	tmpl.Execute(w, hedge)
+
 }
 
 func roundup(f float64) float64 {

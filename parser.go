@@ -9,15 +9,24 @@ import (
 	"github.com/cryptohazard/coinmarketcap"
 )
 
-func ParseJSON(portfolioFile string) *Cryptofolio {
+func ParseJSON(portfolioFile string, hedgeFile string) (*Cryptofolio, *Cryptohedge) {
 	var crypto = new(Cryptofolio)
+	var hedge = new(Cryptohedge)
+
 	rawJSON, err := ioutil.ReadFile(portfolioFile)
 	if err != nil {
 		log.Fatal("Error in portfolio File ", portfolioFile, ": ", err)
 	}
 	json.Unmarshal(rawJSON, &crypto.CryptoArray)
 
-	return crypto
+	rawJSON, err = ioutil.ReadFile(hedgeFile)
+	if err != nil {
+		log.Fatal("Error in hedge fund File ", hedgeFile, ": ", err)
+	}
+
+	json.Unmarshal(rawJSON, &hedge.ShareArray)
+
+	return crypto, hedge
 
 }
 
