@@ -32,10 +32,45 @@ iframe {
     margin:  auto;
 	display: block;
 }
-
+.navbar__menu {
+  display: none; }
+  .navbar__menu--noMob {
+    display: block; }
+  @media (min-width: 992px) {
+    .navbar__menu {
+      display: block; } }
+  .navbar__menu li {
+    margin-left: 4pt;
+    backface-visibility: hidden;
+    display: inline-block; }
+    @media (min-width: 992px) {
+      .navbar__menu li {
+        margin-left: 16pt; } }
+  .navbar__menu a {
+    color: #fff; }
+    @media (min-width: 992px) {
+      .navbar__menu a {
+        opacity: 0.75; }
+        .navbar__menu a:hover {
+          opacity: 1; }
+        .navbar__menu a:after {
+          display: block;
+          content: '';
+          border-bottom: solid 1px #fff;
+          transform: scaleX(0);
+          transition: transform 250ms ease-in-out; }
+        .navbar__menu a:hover:after {
+          transform: scaleX(1); } }
 </style>
 </head>
 <body>
+<nav class="navbar__menu">
+                    <ul>
+						<li><a href="./cryptofolio.html">Cryptofolio</a></li>
+                        <li><a href="./cryptohedge.html">Cryptohedge</a></li>
+                    </ul>
+                </nav>
+
 
 <h1 style="text-align:center;"><font color="White"> Today portfolio value is: {{.Value}}&euro;</h1>
 <iframe src="https://coin360.io/widget/map.html" title="Coin360.io: Cryptocurrency Market State" width="400" height="300" ></iframe>

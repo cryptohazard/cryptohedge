@@ -26,9 +26,45 @@ body {
 	background-size: cover;
 
 }
+.navbar__menu {
+  display: none; }
+  .navbar__menu--noMob {
+    display: block; }
+  @media (min-width: 992px) {
+    .navbar__menu {
+      display: block; } }
+  .navbar__menu li {
+    margin-left: 4pt;
+    backface-visibility: hidden;
+    display: inline-block; }
+    @media (min-width: 992px) {
+      .navbar__menu li {
+        margin-left: 16pt; } }
+  .navbar__menu a {
+    color: #fff; }
+    @media (min-width: 992px) {
+      .navbar__menu a {
+        opacity: 0.75; }
+        .navbar__menu a:hover {
+          opacity: 1; }
+        .navbar__menu a:after {
+          display: block;
+          content: '';
+          border-bottom: solid 1px #fff;
+          transform: scaleX(0);
+          transition: transform 250ms ease-in-out; }
+        .navbar__menu a:hover:after {
+          transform: scaleX(1); } }
 </style>
 </head>
 <body>
+<nav class="navbar__menu">
+                    <ul>
+                        <li><a href="./index.html">Home</a></li>
+                        <li><a href="./cryptofolio.html">Cryptofolio</a></li>
+                    </ul>
+                </nav>
+
 
 <h1 style="text-align:center;"><font color="White">
 Cryptohedge
